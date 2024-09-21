@@ -1,0 +1,108 @@
+---
+title: "Exploring Major Crime Indicators"
+subtitle: "following the data relating to reported MCIs"
+author: "Shreya Sakura Noskor"
+thanks: "Code and data are available at: [ShelterStory](https://github.com/NotSakura/ShelterStory.git)"
+date: today
+date-format: long
+abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+format: pdf
+number-sections: true
+bibliography: references.bib
+toc: true
+---
+
+```{r}
+#| echo: false
+#| include: false
+#| warning: false
+#| message: false
+
+library(knitr)
+library(janitor)
+library(lubridate)
+library(opendatatoronto)
+library(tidyverse)
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| include: true
+
+# Set up
+
+raw_data <-
+  read_csv(
+    "../data/raw_data/MCI_rates.csv",
+    show_col_types = FALSE
+  )
+
+raw_data
+```
+
+
+```{r}
+# clean  up
+
+cleaned_data <- data %>%
+  select(REPORT_DATE, OCC_DATE, DIVISION, LOCATION_TYPE, MCI_CATEGORY, HOOD_158) |>
+  mutate(REPORT_DATE = as.Date(REPORT_DATE),
+         OCC_DATE = as.Date(OCC_DATE),
+         DATE_DIFF = as.integer(REPORT_DATE-OCC_DATE)) |>
+  drop_na()
+
+cleaned_data
+
+```
+
+
+
+# Introduction
+
+
+
+
+
+# Data
+
+## Source
+
+## Variables and Measurement
+
+
+
+
+
+# Results
+
+
+
+
+# Discusion
+
+
+
+## Conclusion
+
+
+## weakness and limitation
+
+
+
+## Real-world application
+
+
+
+
+
+
+
+\newpage
+
+
+# References
+
+
