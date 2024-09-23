@@ -8,6 +8,10 @@
 library(tidyverse)
 library(opendatatoronto)
 
+install.packages("webshot2")
+install.packages(c("dplyr", "sf", "leaflet"))
+
+
 #### Download data ####
 # [...ADD CODE HERE TO DOWNLOAD...]
 

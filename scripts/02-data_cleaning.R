@@ -10,16 +10,18 @@ library(tidyverse)
 #### Clean data ####
 raw_data <-
   read_csv(
-    "../data/raw_data/MCI_rates.csv",
+    "data/raw_data/MCI_rates.csv",
     show_col_types = FALSE
   )
 
 
-cleaned_data <- data %>%
-  select(REPORT_DATE, OCC_DATE, DIVISION, LOCATION_TYPE, MCI_CATEGORY, HOOD_158) |>
-  mutate(REPORT_DATE = as.Date(REPORT_DATE),
-         OCC_DATE = as.Date(OCC_DATE),
-         DATE_DIFF = as.integer(REPORT_DATE-OCC_DATE)) |>
+cleaned_data <- raw_data %>%
+  select(REPORT_DATE, OCC_DATE, DIVISION, LOCATION_TYPE, MCI_CATEGORY, HOOD_158) %>%
+  mutate(
+    REPORT_DATE = as.Date(REPORT_DATE),
+    OCC_DATE = as.Date(OCC_DATE),
+    DATE_DIFF = as.integer(REPORT_DATE - OCC_DATE)
+  ) %>%
   drop_na()
 
 
