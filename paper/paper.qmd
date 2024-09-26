@@ -71,21 +71,24 @@ cleaned_data <-
 # Data
 
 ## Source
-First was loading the initial raw data from Open Data Portal provided by the city of Toronto[@OpenData]. This data set is titled "Major Crime Indicators". Data was cleaned and analysed in R[@citeR] by various helpful packages like, knitr[@rknitr], leaflet[@leaflet], tidyverse[@tidyverse], dplyr[@rDplyr], and lubricate[@lub] .
+First was loading the initial raw data from Open Data Portal provided by the city of Toronto[@OpenData]. This data set is titled "Major Crime Indicators". Data was cleaned and analysed in R[@citeR] by various helpful packages like, knitr[@rknitr], leaflet[@leaflet], tidyverse[@tidyverse], dplyr[@rDplyr], kableExtra [@kblExtra] and lubricate[@lub] .
 
 
 ## Variables and Measurement
-The initial data set was large as it had a total of 27 variables that were recorded. However out of them all we chose to investigate 5 of them: report date, occurrence date, police divisions of Toronto, MCI category and HOOD_158(). The reason for this is because the goal of this report is to try and investigate if there are trends associated with the number of major incident cases reported and where they took place both in terms of which division and which neighborhood. We also see how long it took for a case to be reported after it has occurred. There are of course many other analysis that can be done with all 27 variables but that is outside the scope of this paper and it will quite frankly be too long of a paper as well. 
+The initial data set was large as it had a total of 27 variables that were recorded. However, out of them all we chose to investigate 5 of them: report date, occurrence date, police divisions of Toronto, MCI category, and HOOD_158(). The reason for this is that the goal of this report is to try and investigate if there are trends associated with the number of major incident cases reported and where they took place both in terms of which division and which neighborhood. We also see how long it took for a case to be reported after it had occurred. There are of course many other analyses that can be done with all 27 variables but that is outside the scope of this paper and it will quite frankly be too long of a paper as well. 
 
 
-First to explain some of the pre-existing variables. Major Crime Indicators consists of 5 categories: Assault, Auto Theft, Break and Enter, Robbery and Theft Over. And HOOD_158 represent the new 158 neighborhoods present in the city of Toronto. There are extra columns through out this data set that we have included as well. We first added a date difference colomn which shows how long after the day the reported incident happened, was the incident reported. This variable is worth studying as this tells a story about whether the reported incident was not filed as a Major Incident the date it occurred or it was never reported by the victim/witnesses. Another variable that we added was total MCI in each neighborhood and division. This was to see if there are some areas more prone to a specific type of MCI. And finally we also added a column for counting the total number of charges for each MCI category in total, regardless of their location. This was to see if there is a specific MCI that is commonly commited. 
+First to explain some of the pre-existing variables. Major Crime Indicators consist of 5 categories: Assault, Auto Theft, Break and Enter, Robbery, and Theft Over. And HOOD_158 represents the new 158 neighborhoods present in the city of Toronto. There are extra columns throughout this data set that we have included as well. We first added a date difference column which shows how long after the day the reported incident happened, was the incident reported. This variable is worth studying as this tells a story about whether the reported incident was not filed as a Major Incident the date it occurred or it was never reported by the victim/witnesses. Another variable that we added was the total MCI in each neighborhood and division. This was to see if there are some areas more prone to a specific type of MCI. Finally, we also added a column for counting the total number of charges for each MCI category in total, regardless of their location. This was to see if there is a specific MCI that is commonly committed. 
 
-The measurement of this data set is through open data Toronto meaning that they likely reported the values that were given to them by the Toronto Police Department. As for how they got the data, police are required to submit a report for every case that they handle, and it is no different in this case. The likely scenario is that they reported all the written documents that they have to submit to file a report/investigation.
+The measurement of this data set is through open data Toronto meaning that they likely reported the values that were given to them by the Toronto Police Department. As for how they got the data, police are required to submit a report for every case that they handle, and it is no different in this case. The likely scenario is that they report all the written documents that they have to submit to file a report/investigation.
 
-There are similar data sets that could have been explored likely with more accurate data as this data set only contains information from a decade ago. However, these are trends worth studying as a lot of important events have taken place in the year 2014 that could influence the results in the graph and hence we can learn from it an apply to the present or future. 
+There are similar data sets that could have been explored likely with more accurate data as this data set only contains information from a decade ago. However, these are trends worth studying as a lot of important events took place in the year 2014 that could influence the results in the graph and hence we can learn from them and apply them to the present or future. 
+
 
 
 # Results
+
+## Summary Analysis
 
 ```{r}
 #| echo: false
@@ -124,7 +127,34 @@ cleaned_data %>%
   theme_minimal()
 ```
 @fig-timeMCI shows a more detailed version of @fig-freqMCI, where we are able to once again see that Assault by far is the most reported out of all the MCI categories and Theft Over is the least. However we are able to see that while the number of reports for Theft Over is similar through out the months of 2014 (except for the little increase in November). That is not the case for Assault, as we see that the number of reported cases increase significantly in May and June and then decrease only to increase back in November. The rate of increase is also much higher for Assault then any other MCI category. Auto Theft and Robbery seem to have inverse connections where the months were Robbery increases Auto Theft decreases and then vice versa for other months. Break and Enter seems to have the same number of reported cases except for the 2 downward peaks in February and December. 
+ \newpage
+ 
+## Neighbourhood Analysis
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: fig-table_hood
+#| fig-cap: "Table of the number of MCI cases reported in the neighbourhoods; break down by MCI category"
+# Summarise the data by neighborhood and MCI category
+crime_by_hood_mci <- raw_data %>%
+  group_by(NEIGHBOURHOOD_158, MCI_CATEGORY) %>%
+  summarise(incidents = n(), .groups = 'drop') %>%
+  arrange(desc(incidents)) %>%
+  pivot_wider(names_from = MCI_CATEGORY, values_from = incidents, values_fill = 0)
+
+# Add a total column for MCI charges
+crime_by_hood_mci <- crime_by_hood_mci %>%
+  mutate(total = rowSums(select(., -NEIGHBOURHOOD_158), na.rm = TRUE)) %>%
+  arrange(desc(total))  # Arrange by total incidents in descending order
+
+# Display the tibble as a formatted table
+kable(head(crime_by_hood_mci), caption = "Incidents by Neighborhood and MCI Category")
+
+```
+
+From the above graphs we are only able to see trends but we can't tell anything about the actual numbers related to each neighbourhoods. Therefore we have @fig-table_hood to help with that. This table only shows the top 10 neighbourhoods with the highest count of charges related MCI. For a full table of 158 neighbourhoods go to @fig-hoodFull.  From this table itself we see that West Humber-Clairville has the highest number of MCI charges with 858 charges. We also see that the most commited crime there was Auto Theft. This is however the only unique case. In the rest of the data, (both in this shortend version and the full version in the appendix), we see that the most crime that was commited was Assault, with the numbers being more than 50% of the cases there. 
 
 
 ```{r}
@@ -185,7 +215,7 @@ leaflet_map  <- leaflet(neighbourhoods_crime) %>%
 
 ```{r}
 #| echo: false
-#| warning: false
+#| warning: false  
 #| message: false
 
 #library(webshot2)
@@ -199,59 +229,11 @@ leaflet_map  <- leaflet(neighbourhoods_crime) %>%
 
 
 ![Toronto Crime Map](toronto_crime_map.png)
-Now this picture gives a visual representaion to @fig-table_hood. The sectors highlighted in dark red is where the most number fo MCIs are reported while the lighter it goes the less are reported. 
+Now this picture gives a visual representaion to @fig-table_hood. The sectors highlighted in dark red is where the most number fo MCIs are reported while the lighter it goes the less are reported. As seen in the table, West Humber-Clairville (in the top left corner) has the darkest shade along with Moss Park (in the middle section of the picture) has the highest number of MCI cases. An additional thing we can see from this graph is that majority of th eneighbourhoods in Toronto has a lighter shade meaning that the number of MCI cases is below 200. This includes majority of the west and mid towns of Toronto. 
 
+\newpage
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-
-# Assuming your dataset is called 'crime_data'
-occurence <- cleaned_data %>%
-  mutate(
-    REPORT_DATE = as.Date(REPORT_DATE),
-    OCC_DATE = as.Date(OCC_DATE)
-  )
-
-ggplot(occurence, aes(x = REPORT_DATE, y = OCC_DATE)) +
-  geom_point(alpha = 0.5) +  # Use alpha for point transparency
-  geom_smooth(method = "lm", color = "red") +  # Add line of best fit
-  labs(title = "Scatter Plot of Reported vs. Occurrence Dates",
-       x = "Reported Date",
-       y = "Occurrence Date") +
-  theme_minimal()
-
-
-
-```
-West Humber-Clairville (1) has one of the most and moss park following second. 
-
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| label: fig-table_hood
-#| fig-cap: "Table of the number of MCI cases reported in the neighbourhoods; break down by MCI category"
-# Summarise the data by neighborhood and MCI category
-crime_by_hood_mci <- raw_data %>%
-  group_by(NEIGHBOURHOOD_158, MCI_CATEGORY) %>%
-  summarise(incidents = n(), .groups = 'drop') %>%
-  arrange(desc(incidents)) %>%
-  pivot_wider(names_from = MCI_CATEGORY, values_from = incidents, values_fill = 0)
-
-# Add a total column for MCI charges
-crime_by_hood_mci <- crime_by_hood_mci %>%
-  mutate(total = rowSums(select(., -NEIGHBOURHOOD_158), na.rm = TRUE)) %>%
-  arrange(desc(total))  # Arrange by total incidents in descending order
-
-# Display the tibble as a formatted table
-kable(head(crime_by_hood_mci), caption = "Incidents by Neighborhood and MCI Category")
-
-```
-
-
+## Visual Graph of Neighbourhood Data
 ```{r}
 #| eval: true
 #| echo: false
@@ -259,8 +241,8 @@ kable(head(crime_by_hood_mci), caption = "Incidents by Neighborhood and MCI Cate
 #| warning: false
 #| label: fig-pie
 #| layout-ncol: 3
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior", "2", "3", "4"]
+#| fig-cap: "The top 10 neighbourhoods with the most MCI case and the rest grouped as other: This is to see if there is a obvious outliar"
+#| fig-subcap: ["Assualt", "Auto Theft", "Break and Enter", "Robbery", "Theft Over"]
 
 
 
@@ -282,7 +264,7 @@ crime_top5 <- crime_summary %>%
   group_by(MCI_CATEGORY) %>%
   arrange(MCI_CATEGORY, desc(count)) %>%  # Sort in descending order of crime count
   mutate(rank = row_number()) %>%  # Rank neighborhoods within each category
-  mutate(HOOD_158 = ifelse(rank > 5, "Other", HOOD_158)) %>%  # Group neighborhoods beyond rank 5 as "Other"
+  mutate(HOOD_158 = ifelse(rank > 10, "Other", HOOD_158)) %>%  # Group neighborhoods beyond rank 5 as "Other"
   group_by(MCI_CATEGORY, HOOD_158) %>%
   summarise(total_count = sum(count),  # Summarize the counts for grouped "Other"
             total_percentage = sum(percentage)) %>%  # Summarize the percentages for grouped "Other"
@@ -318,6 +300,8 @@ for (category in mci_categories) {
 
 
 ```
+As per the caption @fig-pie looks at the top 10 neighbour hoods with the most cases in each MCI catagory. With all of the MCI catagory we see that neighbourhood 001 (Or Westville from the table) has the highest percentage of the graph meaning they have the highest number of cases. Take notice that the top 10 neighbourhoods occupy 20% to 25% of all the pie charts (or $\frac{1}{4}$ to $\frac{1}{5}$ of the pie chart). 
+
 
 
 ```{r}
@@ -327,8 +311,8 @@ for (category in mci_categories) {
 #| warning: false
 #| label: fig-pie2
 #| layout-ncol: 3
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior", "2", "3", "4"]
+#| fig-cap: "The top 10 Police Division with the most MCI case and the rest grouped as other: This is to see if there is a obvious outliar"
+#| fig-subcap: ["Assualt", "Auto Theft", "Break and Enter", "Robbery", "Theft Over"]
 
 
 
@@ -350,7 +334,7 @@ crime_top5_div <- crime_summary_div %>%
   group_by(MCI_CATEGORY) %>%
   arrange(MCI_CATEGORY, desc(count)) %>%  # Sort in descending order of crime count
   mutate(rank = row_number()) %>%  # Rank neighborhoods within each category
-  mutate(DIVISION = ifelse(rank > 5, "Other", DIVISION)) %>%  # Group neighborhoods beyond rank 5 as "Other"
+  mutate(DIVISION = ifelse(rank > 10, "Other", DIVISION)) %>%  # Group neighborhoods beyond rank 5 as "Other"
   group_by(MCI_CATEGORY, DIVISION) %>%
   summarise(total_count = sum(count),  # Summarize the counts for grouped "Other"
             total_percentage = sum(percentage)) %>%  # Summarize the percentages for grouped "Other"
@@ -385,6 +369,35 @@ for (category in mci_categories) {
 }
 
 ```
+As per the caption @fig-pie2 looks at the top 10 police divisions with the most cases in each MCI catagory. With MCI catagory Break & Enter and Robbery we see that the most perentage is made by Division 41 (9% and 9.6% respectivly). With Auto Theft we notice that Division 32 is the highest with 11.9%. Assualt has the highest percentage of 8.7% by Division 43. And lastly Theft Over MCI catagory has Division 52 holding 8.8% of the circle. Notice that unlike the first pie chart, the top 10 division holds anywhere from 60% to 80% of the chart (or $\frac{2}{3}$ to $\frac{4}{5}$ of the pie chart). 
+
+
+
+## Occurence Date Vs Reported Dates
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: fig-dates
+#| fig-cap: "Scatter plot of Occurence date vs Reported Date"
+
+# Assuming your dataset is called 'crime_data'
+occurence <- cleaned_data %>%
+  mutate(
+    REPORT_DATE = as.Date(REPORT_DATE),
+    OCC_DATE = as.Date(OCC_DATE)
+  )
+
+ggplot(occurence, aes(x = REPORT_DATE, y = OCC_DATE)) +
+  geom_point(alpha = 0.5) +  # Use alpha for point transparency
+  geom_smooth(method = "lm", color = "red") +  # Add line of best fit
+  labs(title = "Scatter Plot of Reported vs. Occurrence Dates",
+       x = "Reported Date",
+       y = "Occurrence Date") +
+  theme_minimal()
+
+```
+It is important to notice that the number of MCIs in each neighbourhood is not the only data that can be found from this data set so we look at the reported date vs the occurence date as well. In @fig-dates we notice that most of the scatters are in the top of the graph near y = 2014. This means that report date an dthe ocurence date is relativly close to each other. Looking at the cleaned data we see the same thing. However there is a handful of points is no where near the read line. This means that those points are where the occurence date is a lot earlier than the reported date. There are many MCI cases that have been reported more than 10 years after the occurence date, and even more that has been reported 5 years later. 
 
 
 # Discusion
@@ -395,7 +408,6 @@ for (category in mci_categories) {
 
 
 ## weakness and limitation
-This is a very old data but the point was to see the trends and learn from the history. 
 
 We think that the data set chosen for this paper is very strong as it is from a credible source and there were no NA values in the raw data file meaning that every data had a value for each attribute. This makes our data strong however, some of the limitations of this data set was the fact that this is a data set from 2014. It is a decade old data set so there is a possibility that the analysis doen here doesn't apply to our current date however, it is still good to take note of such trends. Another limitation could be that not all incidents get reported so, there is a strong chance that this data is very accurate depiction of all the Major Crime Indicators that happened in Toronto in  2014. There could be cases where the victims/witnesses didn't come forward or a incident was wrongly reported as MCI or not. 
 
@@ -404,11 +416,29 @@ We think that the data set chosen for this paper is very strong as it is from a 
 
 
 
+## Future Research
 
 
 \newpage
 
 # Appendix
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-hoodFull
+#| fig-cap: "The full table for each MCI charge in each neighbourhood"
+library(kableExtra)
+
+
+kable(tail(crime_by_hood_mci, 158), caption = "Incidents by Neighborhood and MCI Category") %>%
+  kable_styling(font_size = 5)  # Adjust the font_size as needed
+
+```
+
+
 
 \newpage
 
