@@ -1,4 +1,4 @@
-# Trends in Shelter
+# Trends in Number of  Major Crime Indicators
 
 ## Overview
 
@@ -21,4 +21,4 @@ The repo is structured as:
 
 ## Statement on LLM usage
 
-Aspects of the code were written with the help of the auto-complete tool, Codriver. The abstract and introduction were written with the help of ChatHorse and the entire chat history is available in inputs/llms/usage.txt.
+ChatGPT was used to help with graphing as some of the content on graphing pie charts, for example, was not in the textbook.  Chat history is available in inputs/llms/usage.txt. Otherwise its in this link https://chatgpt.com/share/66f58910-70e8-8012-b290-ba8dd5d5faa5
