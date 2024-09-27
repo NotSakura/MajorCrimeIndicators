@@ -1,10 +1,8 @@
 # Trends in Number of  Major Crime Indicators
 
-## Overview
+## Abstract
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
-To use this folder, click the green "Code" button", then "Download ZIP". Move the downloaded folder to where you want to work on your own computer, and then modify it to suit.
+This paper looks at the various trends related to number of reported MCI cases in each neighbourhood, in 2014. We create variuos graphs and tables to help with the analysis and we do so in a way that the reader understands each step. We found that the area and population greatly affect the number of reported cases for each MCI. This analysis of old data will help reader notice any trends and patterns that will help us understand what environment causes these crimes to happen and how to prevent it by allocating the right resouces.
 
 
 ## File Structure
@@ -21,4 +19,4 @@ The repo is structured as:
 
 ## Statement on LLM usage
 
-ChatGPT was used to help with graphing as some of the content on graphing pie charts, for example, was not in the textbook.  Chat history is available in inputs/llms/usage.txt. Otherwise its in this link https://chatgpt.com/share/66f58910-70e8-8012-b290-ba8dd5d5faa5
+ChatGPT was used to help with graphing as some of the content on graphing pie charts, for example, was not in the textbook. It was also used to resolve errors as well, once that could not be solved with a simple web search.  Chat history is available in inputs/llms/usage.txt. Otherwise its in this link https://chatgpt.com/share/66f58910-70e8-8012-b290-ba8dd5d5faa5

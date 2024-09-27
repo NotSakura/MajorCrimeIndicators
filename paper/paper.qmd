@@ -2,10 +2,10 @@
 title: "Exploring Major Crime Indicators"
 subtitle: "following the data relating to reported MCIs in 2014"
 author: "Shreya Sakura Noskor"
-thanks: "Code and data are available at: [ShelterStory](https://github.com/NotSakura/ShelterStory.git)"
+thanks: "Code and data are available at: [Major Crime Indicator](https://github.com/NotSakura/MajorCrimeIndicators.git)"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This paper looks at the various trends related to number of reported MCI cases in each neighbourhood, in 2014. We create variuos graphs and tables to help with the analysis and we do so in a way that the reader understands each step. We found that the area and population greatly affect the number of reported cases for each MCI. This analysis of old data will help reader notice any trends and patterns that will help us understand what environment causes these crimes to happen and how to prevent it by allocating the right resouces."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -64,7 +64,13 @@ cleaned_data <-
 
 # Introduction
 
+  Crime in Toronto has increased significantly in recent years, affecting the public view of the Police department, resource distribution and more. Toronto is a diverse and densely populated city, and understanding the patterns and occurrences of Major Crime Indicators (MCIs) can help both residents and authorities. This paper investigates the reported cases of MCIs across various neighborhoods in Toronto, aiming to identify trends, correlations, and odd trends that can guide future crime prevention efforts.
 
+  This study specifically examines data from 2014, which, despite being a decade old, provides valuable insights into historical crime patterns. The analysis focuses on the relationship between neighborhood demographics, police divisions, and reported crime rates, revealing important information such as which MCI category has the most number of reports and the surprising trends in Robbery and Auto Theft. By cross-referencing these data points, the research uncovers correlations and discrepancies that shed light on the complexities of crime reporting and occurrence.
+
+  The gap we are trying to fill is historical context. While more recent studies focus on current statistics, understanding past trends is important for recognizing recurring patterns that might influence future criminal behavior. This paper aims to fill that gap by providing a analysis of the 2014 data that all readers can understand, allowing transparency for both community members and law enforcement. We fill this gap by graphing the data in different ways to understand different aspects and trends of the data. We do both a visual representation as well as a table to show concrete numbers. 
+
+  Through detailed neighborhood and police division analyses, this research finds that larger populations correlate with higher reported crime rates. Moreover, it highlights the sometime large difference between occurrence dates and reporting dates, that maybe caused by multiple things such as long investigation times or victims not coming forward. The findings show the importance of allocating resources effectively and investing in safer neighborhoods. The paper is structured to first present the data and its variables which is followed by the results of the graphs. We then finish the paper with a discussion section that talks about the reasons and explanation for each graph (by telling the story in the dataset) and a conclusion which includes the real world application based on the analysis. 
 
 
 
@@ -75,14 +81,14 @@ First was loading the initial raw data from Open Data Portal provided by the cit
 
 
 ## Variables and Measurement
-The initial data set was large as it had a total of 27 variables that were recorded. However, out of them all we chose to investigate 5 of them: report date, occurrence date, police divisions of Toronto, MCI category, and HOOD_158(). The reason for this is that the goal of this report is to try and investigate if there are trends associated with the number of major incident cases reported and where they took place both in terms of which division and which neighborhood. We also see how long it took for a case to be reported after it had occurred. There are of course many other analyses that can be done with all 27 variables but that is outside the scope of this paper and it will quite frankly be too long of a paper as well. 
+The initial data set was very large as it had a total of 27 variables that were recorded. However, out of them all we chose to investigate 5 of them: report date, occurrence date, police divisions of Toronto, MCI category, and HOOD_158(). The reason for this is that the goal of this report is to try and investigate if there are trends associated with the number of major incident cases reported and where they took place both in terms of which division and which neighborhood. We also see how long it took for a case to be reported after it had occurred. There are of course many other analyses that can be done with all 27 variables but that is outside the scope of this paper and it will quite frankly be too long of a paper as well. 
 
 
-First to explain some of the pre-existing variables. Major Crime Indicators consist of 5 categories: Assault, Auto Theft, Break and Enter, Robbery, and Theft Over. And HOOD_158 represents the new 158 neighborhoods present in the city of Toronto. There are extra columns throughout this data set that we have included as well. We first added a date difference column which shows how long after the day the reported incident happened, was the incident reported. This variable is worth studying as this tells a story about whether the reported incident was not filed as a Major Incident the date it occurred or it was never reported by the victim/witnesses. Another variable that we added was the total MCI in each neighborhood and division. This was to see if there are some areas more prone to a specific type of MCI. Finally, we also added a column for counting the total number of charges for each MCI category in total, regardless of their location. This was to see if there is a specific MCI that is commonly committed. 
+  First to explain some of the pre-existing variables. Major Crime Indicators consist of 5 categories: Assault, Auto Theft, Break and Enter, Robbery, and Theft Over. And HOOD_158 represents the current 158 neighborhoods present in the city of Toronto. There are extra columns throughout this data set that we have included as well. We first added a date difference column which shows how long after the day the reported incident happened, was the incident reported. This variable is worth studying as this tells a story about whether the reported incident was not filed as a Major Incident the date it occurred or it was never reported by the victim/witnesses. Another variable that we added was the total MCI in each neighborhood and division. This was to see if there are some areas more prone to a specific type of MCI. Finally, we also added a column for counting the total number of charges for each MCI category in total, regardless of their location. This was to see if there is a specific MCI that is commonly committed. 
 
-The measurement of this data set is through open data Toronto meaning that they likely reported the values that were given to them by the Toronto Police Department. As for how they got the data, police are required to submit a report for every case that they handle, and it is no different in this case. The likely scenario is that they report all the written documents that they have to submit to file a report/investigation.
+  This data set is through open data Toronto meaning that they likely reported the values that were given to them by the Toronto Police Department. As for how they measured the data, police are required to submit a report for every case that they handle, and it is no different in this case. The likely scenario is that they report all the written documents that they have to submit to file a report/investigation.
 
-There are similar data sets that could have been explored likely with more accurate data as this data set only contains information from a decade ago. However, these are trends worth studying as a lot of important events took place in the year 2014 that could influence the results in the graph and hence we can learn from them and apply them to the present or future. 
+There are similar data sets that could have been explored likely with more accurate and current data as this data set only contains information from a decade ago. However, these are trends worth studying as a important events took place in the year 2014 that could influence the results in the graph and hence we can learn from them and apply them to the present or future. 
 
 
 
@@ -154,7 +160,7 @@ kable(head(crime_by_hood_mci), caption = "Incidents by Neighborhood and MCI Cate
 
 ```
 
-From the above graphs we are only able to see trends but we can't tell anything about the actual numbers related to each neighbourhoods. Therefore we have @fig-table_hood to help with that. This table only shows the top 10 neighbourhoods with the highest count of charges related MCI. For a full table of 158 neighbourhoods go to @fig-hoodFull.  From this table itself we see that West Humber-Clairville has the highest number of MCI charges with 858 charges. We also see that the most commited crime there was Auto Theft. This is however the only unique case. In the rest of the data, (both in this shortend version and the full version in the appendix), we see that the most crime that was commited was Assault, with the numbers being more than 50% of the cases there. 
+From the above graphs we are only able to see trends but we can't tell anything about the actual numbers related to each neighborhoods. Therefore we have @fig-table_hood to help with that. This table only shows the top 10 neighborhoods with the highest count of charges related MCI. For a full table of 158 neighborhoods go to @tbl-hoodFull.  From this table itself we see that West Humber-Clairville has the highest number of MCI charges with 858 charges. We also see that the most commited crime there was Auto Theft. This is however the only unique case. In the rest of the data, (both in this shortened version and the full version in the appendix), we see that the most crime that was commited was Assault, with the numbers being more than 50% of the cases there. 
 
 
 ```{r}
@@ -225,11 +231,12 @@ leaflet_map  <- leaflet(neighbourhoods_crime) %>%
 
 # Take a screenshot of the HTML file and save it as a PNG image
 #webshot("toronto_crime_map.html", file = "toronto_crime_map.png", vwidth = 1200, vheight = 800)
+
 ```
 
+![Toronto Crime Map](toronto_crime_map.png) 
 
-![Toronto Crime Map](toronto_crime_map.png)
-Now this picture gives a visual representaion to @fig-table_hood. The sectors highlighted in dark red is where the most number fo MCIs are reported while the lighter it goes the less are reported. As seen in the table, West Humber-Clairville (in the top left corner) has the darkest shade along with Moss Park (in the middle section of the picture) has the highest number of MCI cases. An additional thing we can see from this graph is that majority of th eneighbourhoods in Toronto has a lighter shade meaning that the number of MCI cases is below 200. This includes majority of the west and mid towns of Toronto. 
+Now this picture gives a visual representation to @fig-table_hood. The sectors highlighted in dark red is where the most number fo MCIs are reported while the lighter it goes the less are reported. As seen in the table, West Humber-Clairville (in the top left corner) has the darkest shade along with Moss Park (in the middle section of the picture) has the highest number of MCI cases. An additional thing we can see from this graph is that majority of th neighborhoods in Toronto has a lighter shade meaning that the number of MCI cases is below 200. This includes majority of the west and mid towns of Toronto. 
 
 \newpage
 
@@ -300,7 +307,7 @@ for (category in mci_categories) {
 
 
 ```
-As per the caption @fig-pie looks at the top 10 neighbour hoods with the most cases in each MCI catagory. With all of the MCI catagory we see that neighbourhood 001 (Or Westville from the table) has the highest percentage of the graph meaning they have the highest number of cases. Take notice that the top 10 neighbourhoods occupy 20% to 25% of all the pie charts (or $\frac{1}{4}$ to $\frac{1}{5}$ of the pie chart). 
+As per the caption @fig-pie looks at the top 10 neighbor hoods with the most cases in each MCI category. With all of the MCI category we see that neighborhood 001 (Or West Humber-Clairville from the table) has the highest percentage of the graph meaning they have the highest number of cases. Take notice that the top 10 neighborhoods occupy 20% to 25% of all the pie charts (or $\frac{1}{4}$ to $\frac{1}{5}$ of the pie chart). 
 
 
 
@@ -369,7 +376,7 @@ for (category in mci_categories) {
 }
 
 ```
-As per the caption @fig-pie2 looks at the top 10 police divisions with the most cases in each MCI catagory. With MCI catagory Break & Enter and Robbery we see that the most perentage is made by Division 41 (9% and 9.6% respectivly). With Auto Theft we notice that Division 32 is the highest with 11.9%. Assualt has the highest percentage of 8.7% by Division 43. And lastly Theft Over MCI catagory has Division 52 holding 8.8% of the circle. Notice that unlike the first pie chart, the top 10 division holds anywhere from 60% to 80% of the chart (or $\frac{2}{3}$ to $\frac{4}{5}$ of the pie chart). 
+As per the caption @fig-pie2 looks at the top 10 police divisions with the most cases in each MCI category. With MCI category Break & Enter and Robbery we see that the most percentage is made by Division 41 (9% and 9.6% respectively). With Auto Theft we notice that Division 32 is the highest with 11.9%. Assault has the highest percentage of 8.7% by Division 43. And lastly Theft Over MCI category has Division 52 holding 8.8% of the circle. Notice that unlike the first pie chart, the top 10 division holds anywhere from 60% to 80% of the chart (or $\frac{2}{3}$ to $\frac{4}{5}$ of the pie chart). 
 
 
 
@@ -402,42 +409,51 @@ It is important to notice that the number of MCIs in each neighbourhood is not t
 
 # Discusion
 
+## Stories in Each Section
+  The first section we will talk about is the summary section. Here we learn that Assault is the most committed MCI category. The Toronto Police defines Assault as "The direct or indirect application of force to another person, or the attempt or threat to apply force to another person, without that person’s consent.". This is a very broad term as there are a lot of charges that fall under this category. That would explain why there is a large number of reported cases for Assault. Meanwhile, the least number reported was for Theft Over which the Toronto police defines as "The act of stealing property in excess of $5,000". This includes cases of shoplifting and such but does not include auto theft. Hence it makes sense as to why there are a small number of reports because the amount of dollars required for a crime to be considered Theft Over is too high. All definitions are mentioned in @tps2023glossary. 
+  Additionally, By looking at the graph we notice that for most MCI categories, there is an increase in the month of November, except for Robbery. This was intriguing as during the November and December months there is a rise in crime as there are more holidays in those months, which leads to people committing more smaller crimes such as theft. However, this was not the case in this graph. The most educated inference was that this is the time when people want to spend more time with their families so there aren't many people that want to commit crimes as well as not many police that are on duty to process the reports. Moving on, another trend we found interesting but had no explanation for was the seemingly negative correlation between Robbery and Auto Theft. The guess was that it might be due to the fact that Auto Theft is a type of Robbery and it just represents which cases had more priority for each month but that is hard to prove with this data set. 
 
+Next, we look at the neighborhood analysis. Most of the story told here is very straightforward. It looks like the West Humber-Clairville (Hood 001) has the highest number across all the MCI categories but especially large numbers in the Assault category. This may be due to the fact that this is one of the largest neighborhoods as seen in the map provided after @fig-table_hood. It also doesn't help that the neighborhood is close to multiple highways which makes it a very easy place to escape. Downtown Toronto neighborhoods seem to have a very high number of cases as well but, that is also expected as there is a large volume of people there. The more the people the more the chance of these crimes being reported. On the other hand, we see that the smaller neighborhood districts, such as  Maple Leaf (29) and Lambton Baby Point (114), are very small neighborhoods in the north and west of Toronto. They both have a 52 reported cases across all the MCI categories. What we have noticed in this section is that the smaller less populated areas have a very small number of cases reported for any of the MCIs. More evidence, upon closer inspection of the cleaned data, was found. For example, the highest number of Theft cases was in West Humber-Clairville, a large neighborhood near multiple highways. And the largest number of Robbery was found in Moss Park which is near the harbourfront in the heart of downtown Toronto. The general pattern is that the neighborhood with the most population both in residence and foot traffic attracts these cases. 
+
+  Next, we take a look at neighborhood statistics compared to police division statistics. There are 158 neighborhoods in Toronto but, only 18 divisions. This is why @fig-pie and @fig-pie2 look so different. Division 52 has the highest percentage of Theft Over because that division covers the harbourfront and a lot of downtown Toronto meaning more people and more number of theft cases. Division 43 has the highest assault cases because it covers a very large area in the east end of Toronto. Division 32 might have the highest Auto Theft cases due to the fact that it is on the edge of North York, where Highway 401 runs beside it. Division 41 has the highest number of Break & Enter and Robberies, which may be due to the fact that it is close to downtown Toronto but it also is in the suburbs which has a high number of residential areas. To see which neighborhood is in which police division, we referred to @tps2023neighbourhood. 
+  
+  The last section we investigated was the Reported dates vs the Occurrence dates. We made a line of best fit for the scatter plot and the line is mostly linear which shows that for the most part, a high number of cases were reported close to the day it occurred. However, we noticed that there were many data points where the occurrence date was 5, maybe even 10 years before the reported date. Some even date back to before the 1970s. These were very odd and it made us question if there were cases in 2014 that weren't reported in 2014. This graph tells us that there are many cases where witnesses and victims don't feel safe reporting the incident that occurred to them which results in this result in the graph. Another reason we might see this is because the police must do a thorough investigation and gather evidence of the crime before they can report it as an MCI. This means that any delays in investigation and/or overlooks in evidence can result in these large gaps of time between the reported date and the occurrence date. 
+  
+   
 
 ## Conclusion
+  This paper looks at the various trends related to the number of reported MCI cases in each neighborhood. We compare each of the neighborhoods to judge which one seems safe and to see if there are any patterns related to which neighborhood is more affected by these crimes than the rest. So far we discovered that the population and size of the neighborhood or police division play a big role in the number of these cases found. The bigger the area and the more people, the more cases are reported. We also noticed that it is not impossible to see a big difference in the reported date versus the occurrence date as crimes are not always reported and the time of occurrence. 
 
+## Weakness and Limitation
 
-## weakness and limitation
-
-We think that the data set chosen for this paper is very strong as it is from a credible source and there were no NA values in the raw data file meaning that every data had a value for each attribute. This makes our data strong however, some of the limitations of this data set was the fact that this is a data set from 2014. It is a decade old data set so there is a possibility that the analysis doen here doesn't apply to our current date however, it is still good to take note of such trends. Another limitation could be that not all incidents get reported so, there is a strong chance that this data is very accurate depiction of all the Major Crime Indicators that happened in Toronto in  2014. There could be cases where the victims/witnesses didn't come forward or a incident was wrongly reported as MCI or not. 
+We think that the data set chosen for this paper is very strong as it is from a credible source and there were no missing values in the raw data file meaning that every data had a value for each attribute. This makes our data very reliable however, one of the limitations of this data set was the fact that this is a data set from 2014. It is a decade-old data set so there is a possibility that the analysis done here doesn't apply to our current data however, it is still good to take note of such trends. Another limitation could be that not all incidents get reported so, there is a strong chance that this data is a very accurate depiction of all the Major Crime Indicators that happened in Toronto in  2014. There could be cases where the victims/witnesses didn't come forward or an incident was wrongly reported as MCI or not. 
 
 
 ## Real-world application
 
+  The main focus of the paper was to see a story between all the lines in the graphs and through all the numbers in the table. Now to answer the pressing question: what do we do with this? There are a number of real-world applications for analyzing old data; after all, there is a saying stating "history repeats itself". We will provide 2 real-world applications to this analysis. 
+  First is market price, or more specifically housing market price. Knowing this information will help readers make an informed decision if they are looking to move to Toronto or move between the neighborhoods of Toronto. Of course the safer the neighborhood the more you might have to pay to live there but, it is important to know which are the unsafe neighborhoods. We cannot tell the reader where to live as one may choose to live in a neighborhood with a high crime rate, but the least we can do is let them know about it so they are able to pay the right price for a house in a certain neighborhood. 
+  Another application applies to law enforcement; how to predict certain crimes. This may be done already by the police department but, we now know which areas are more prone to a certain type of MCI. We are now able to allocate more police officers in neighborhoods and divisions we expect there to be a large number of criminal activity. Adding on to this local government can also now allocate more money to neighborhoods that are affected by the number of these cases. For example, in 2014, the city of Toronto gave the Toronto Police Department a little over \$1 billion as its yearly budget. It seems like the budget from 2014 to 2024 has only increased from \$1 billion but the number of cases has increased unfortunately. With better allocation of these resources, we are able to save money for other areas of the government that might need it. [@2014Bud]
 
-
-## Future Research
 
 
 \newpage
 
 # Appendix
 
+
+
 ```{r}
-#| eval: true
 #| echo: false
-#| message: false
 #| warning: false
-#| label: fig-hoodFull
-#| fig-cap: "The full table for each MCI charge in each neighbourhood"
+#| message: false
+#| label: tbl-hoodFull
+#| tbl-cap: "The full table for each MCI charge in each neighbourhood"
+
 library(kableExtra)
-
-
-kable(tail(crime_by_hood_mci, 158), caption = "Incidents by Neighborhood and MCI Category") %>%
-  kable_styling(font_size = 5)  # Adjust the font_size as needed
-
+kable(tail(crime_by_hood_mci, 158)) %>%
+  kable_styling(font_size = 5)
 ```
-
 
 
 \newpage
